@@ -1,0 +1,173 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique user ID from Firebase Auth" },
+        "email": { "type": "string", "format": "email", "description": "User's email address" },
+        "displayName": { "type": "string", "description": "User's full name" },
+        "role": { "type": "string", "enum": ["client", "office", "owner", "admin"], "description": "User's role in the platform" },
+        "photoURL": { "type": "string", "format": "uri", "description": "URL to user's profile picture" },
+        "phoneNumber": { "type": "string", "description": "User's phone number (private, only for admin)" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the user account was created" }
+      },
+      "required": ["uid", "email", "role", "phoneNumber"]
+    },
+    "Chalet": {
+      "title": "Chalet Listing",
+      "description": "Details of a chalet available for rent",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "location": { "type": "string" },
+        "price": { "type": "number" },
+        "rooms": { "type": "integer" },
+        "bathrooms": { "type": "integer" },
+        "images": { "type": "array", "items": { "type": "string" } },
+        "officeId": { "type": "string" },
+        "description": { "type": "string" },
+        "amenities": { "type": "array", "items": { "type": "string" } },
+        "status": { "type": "string", "enum": ["available", "booked"] },
+        "availableFrom": { "type": "string", "format": "date", "description": "Start date of the chalet availability window" },
+        "availableTo": { "type": "string", "format": "date", "description": "End date of the chalet availability window" },
+        "blockedDates": { "type": "array", "items": { "type": "string", "format": "date" }, "description": "Array of YYYY-MM-DD strings that are unavailable" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "location", "price", "officeId"]
+    },
+    "Request": {
+      "title": "User Request",
+      "description": "A booking request posted by a client",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "location": { "type": "string" },
+        "checkIn": { "type": "string", "format": "date" },
+        "checkOut": { "type": "string", "format": "date" },
+        "budget": { "type": "number" },
+        "guests": { "type": "integer" },
+        "status": { "type": "string", "enum": ["active", "closed"] },
+        "urgent": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "location", "checkIn", "checkOut", "budget"]
+    },
+    "Negotiation": {
+      "title": "Negotiation",
+      "description": "A negotiation thread between a client and an office",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "requestId": { "type": "string" },
+        "chaletId": { "type": "string" },
+        "officeId": { "type": "string" },
+        "userId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "rejected", "counter"] },
+        "currentOffer": { "type": "number" },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "senderId": { "type": "string" },
+              "text": { "type": "string" },
+              "timestamp": { "type": "string", "format": "date-time" }
+            }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["requestId", "chaletId", "officeId", "userId", "status"]
+    },
+    "Subscriber": {
+      "title": "WhatsApp Subscriber",
+      "description": "User who subscribed to WhatsApp notifications",
+      "type": "object",
+      "properties": {
+        "phoneNumber": { "type": "string", "description": "Subscriber's phone number" },
+        "subscribedAt": { "type": "string", "format": "date-time", "description": "When the user subscribed" },
+        "active": { "type": "boolean", "description": "Whether the subscription is active" }
+      },
+      "required": ["phoneNumber", "subscribedAt", "active"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "Real-time user notification",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "type": { "type": "string", "enum": ["offer", "agreement", "payment", "system", "message"] },
+        "read": { "type": "boolean" },
+        "link": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "message", "type", "read", "link", "createdAt"]
+    },
+    "Verification": {
+      "title": "Verification Request",
+      "description": "A manual verification request for an office",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "officeName": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "verified", "rejected"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "status", "createdAt"]
+    },
+    "Dispute": {
+      "title": "Dispute",
+      "description": "A booking or payment dispute",
+      "type": "object",
+      "properties": {
+        "negotiationId": { "type": "string" },
+        "userId": { "type": "string" },
+        "officeId": { "type": "string" },
+        "reason": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "resolved", "dismissed"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["negotiationId", "userId", "officeId", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile documents"
+    },
+    "/chalets/{chaletId}": {
+      "schema": "Chalet",
+      "description": "Chalet listing documents"
+    },
+    "/requests/{requestId}": {
+      "schema": "Request",
+      "description": "User booking requests"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "User notifications"
+    },
+    "/negotiations/{negotiationId}": {
+      "schema": "Negotiation",
+      "description": "Negotiation threads"
+    },
+    "/subscribers/{subscriberId}": {
+      "schema": "Subscriber",
+      "description": "WhatsApp notification subscribers"
+    },
+    "/verifications/{verificationId}": {
+      "schema": "Verification",
+      "description": "Manual verification requests"
+    },
+    "/disputes/{disputeId}": {
+      "schema": "Dispute",
+      "description": "System disputes"
+    }
+  }
+}

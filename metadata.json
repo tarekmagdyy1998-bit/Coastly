@@ -1,0 +1,7 @@
+{
+  "name": "Coastly · ساحلي",
+  "description": "منصة حجز شاليهات الساحل الشمالي بنظام التفاوض والذكاء الاصطناعي",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

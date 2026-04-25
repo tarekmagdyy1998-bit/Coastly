@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Playfair+Display:wght@700;800&family=Tajawal:wght@400;700;800;900&display=swap');
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --font-playfair: "Playfair Display", serif;
+  --font-tajawal: "Tajawal", sans-serif;
+  --font-cairo: "Cairo", sans-serif;
+
+  --color-ink: #0A192F;
+  --color-ink-m: #112240;
+  --color-ink-s: #233554;
+  --color-sea: #00B4D8;
+  --color-sea-l: #48CAE4;
+  --color-sea-ll: #90E0EF;
+  --color-sea-p: #CAF0F8;
+  --color-coral: #FF4D6D;
+  --color-coral-l: #FF758F;
+  --color-coral-p: #FFF0F3;
+  --color-sand: #FDF0D5;
+  --color-sand-d: #FAD2E1;
+  --color-salt: #F8F9FA;
+  --color-mint: #1A9E68;
+  --color-mint-l: #E6F7F0;
+  --color-gold: #C48B1A;
+  --color-gold-l: #FEF3E0;
+  --color-lav: #6B52B8;
+  --color-lav-l: #F0ECFB;
+  --color-red: #D94040;
+  --color-red-l: #FDEAEA;
+
+  --radius-r: 14px;
+  --radius-rs: 9px;
+  --radius-rxs: 6px;
+
+  --shadow-sh: 0 2px 16px rgba(13,31,45,.08);
+  --shadow-shm: 0 8px 32px rgba(13,31,45,.13);
+  --shadow-shl: 0 24px 60px rgba(13,31,45,.18);
+  
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-blur: blur(12px);
+}
+
+@layer utilities {
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+  }
+  
+  .glass-dark {
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 180px;
+    gap: 1rem;
+  }
+
+  .skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+  }
+
+  .custom-price-marker {
+    background: transparent !important;
+    border: none !important;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@layer base {
+  body {
+    @apply bg-salt text-ink font-cairo;
+  }
+  
+  html[dir="rtl"] body {
+    @apply font-cairo;
+  }
+
+  html[dir="ltr"] body {
+    @apply font-sans;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-tajawal font-bold;
+  }
+  
+  html[dir="ltr"] h1, 
+  html[dir="ltr"] h2, 
+  html[dir="ltr"] h3, 
+  html[dir="ltr"] h4, 
+  html[dir="ltr"] h5, 
+  html[dir="ltr"] h6 {
+    @apply font-playfair;
+  }
+}
+
+.font-playfair { font-family: var(--font-playfair); }
+.font-tajawal { font-family: var(--font-tajawal); }
+.font-cairo { font-family: var(--font-cairo); }
+
